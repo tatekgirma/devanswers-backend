@@ -7,7 +7,7 @@ const answerSchema = new mongoose.Schema({
     ref: "Question",
     required: true,
   },
-  answertext: {
+  answerText: {
     type: String,
     required: true,
   },
