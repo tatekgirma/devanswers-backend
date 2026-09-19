@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const questionSchema = new mongoose.Schema({
-  // TODO: Define schema fields
   title: {
     type: String,
     required: true,

@@ -6,7 +6,6 @@
   "scripts": {
     "queries": "node queries.js",
     "populate": "node scripts/populate_db.js",
-    "run1": "npm run populate && npm run queries",
     "run": "nodemon --exec \"npm run populate && npm run queries\""
   },
   "keywords": [],

@@ -5,18 +5,18 @@ import Answer from "./models/Answer.js";
 import dotenv from "dotenv";
 
 async function query1() {
-  // const robin = await User.create({
-  //   name: "Robin",
-  //   email: "robin@example.com",
-  //   password: "hashed_password_7",
-  //   createdAt: new Date("2025-06-25T10:15:00Z"),
-  // });
-  // console.log(robin);
+  const robin = await User.create({
+    name: "Robin",
+    email: "robin@example.com",
+    password: "hashed_password_7",
+    createdAt: new Date("2025-06-25T10:15:00Z"),
+  });
+  console.log(robin);
 }
 
 async function query2() {
-  // const alice = await User.findOne({ email: "alice@example.com" });
-  // console.log(alice);
+  const alice = await User.findOne({ email: "alice@example.com" });
+  console.log(alice);
 }
 
 async function query3() {

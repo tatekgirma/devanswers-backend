@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  // TODO: Define schema fields
   name: {
     type: String,
     required: true,

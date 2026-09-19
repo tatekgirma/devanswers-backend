@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const answerSchema = new mongoose.Schema({
-  // TODO: Define schema fields
   questionId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Question",
