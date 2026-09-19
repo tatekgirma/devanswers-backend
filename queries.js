@@ -5,83 +5,193 @@ import Answer from "./models/Answer.js";
 import dotenv from "dotenv";
 
 async function query1() {
-  // Write code for Query 1 here
+  // const robin = await User.create({
+  //   name: "Robin",
+  //   email: "robin@example.com",
+  //   password: "hashed_password_7",
+  //   createdAt: new Date("2025-06-25T10:15:00Z"),
+  // });
+  // console.log(robin);
 }
 
 async function query2() {
-  // Write code for Query 2 here
+  // const alice = await User.findOne({ email: "alice@example.com" });
+  // console.log(alice);
 }
 
 async function query3() {
-  // Write code for Query 3 here
+  // Fetch question with the title 'How can I improve the performance of a react app?'
+  const question = await Question.findOne({
+    title: "How can I improve the performance of a react app?",
+  });
+  console.log(question);
 }
 
 async function query4() {
-  // Write code for Query 4 here
+  const javascriptQuestions = await Question.find({ tags: "javascript" });
+  console.log(javascriptQuestions);
 }
 
 async function query5() {
-  // Write code for Query 5 here
+  const questionsAfterApril2023 = await Question.find({
+    createdAt: { $gt: new Date("2023-04-01T00:00:00Z") },
+  });
+  console.log(questionsAfterApril2023);
 }
 
 async function query6() {
-  // Write code for Query 6 here
+  const javascriptOrReactQuestions = await Question.find({
+    tags: { $in: ["javascript", "react"] },
+  });
+  console.log(javascriptOrReactQuestions);
 }
 
 async function query7() {
-  // Write code for Query 7 here
+  const distinctTags = await Question.distinct("tags");
+  console.log(distinctTags);
 }
 
 async function query8() {
-  // Write code for Query 8 here
+  const questionsWithAtLeast50Views = await Question.find({
+    views: { $gte: 50 },
+  });
+  console.log(questionsWithAtLeast50Views);
 }
 
 async function query9() {
-  // Write code for Query 9 here
+  const answersWithZeroVotes = await Answer.find({ voteCount: 0 });
+  console.log(answersWithZeroVotes);
 }
 
 async function query10() {
-  // Write code for Query 10 here
+  const answersWithPositiveVotes = await Answer.find({ voteCount: { $gt: 0 } });
+  console.log(answersWithPositiveVotes);
 }
 
 async function query11() {
-  // Write code for Query 11 here
+  const usersCreatedBetweenJanAndMay2023 = await User.find({
+    createdAt: {
+      $gte: new Date("2023-01-01T00:00:00Z"),
+      $lt: new Date("2023-05-01T00:00:00Z"),
+    },
+  });
+  console.log(usersCreatedBetweenJanAndMay2023);
 }
 
 async function query12() {
-  // Write code for Query 12 here
+  const question = await Question.findOne({
+    title: "How do I set up routing with react router v6?",
+  });
+  const answersForQuestion = await Answer.find({
+    questionId: question._id,
+  }).select("answerText author -_id");
+  console.log(answersForQuestion);
 }
 
 async function query13() {
-  // Write code for Query 13 here
+  const usersWithNoAnswers = await User.find({
+    _id: { $nin: await Answer.distinct("author") },
+  });
+  console.log(usersWithNoAnswers);
 }
 
 async function query14() {
-  // Write code for Query 14 here
+  const topTwoQuestions = await Question.find()
+    .sort({ voteCount: -1 })
+    .limit(2);
+  console.log(
+    topTwoQuestions.map(q => ({ title: q.title, voteCount: q.voteCount })),
+  );
 }
 
 async function query15() {
-  // Write code for Query 15 here
+  const userIdsAndNumberOfAnswersPosted = await Answer.aggregate([
+    {
+      $group: {
+        _id: "$author",
+        numberOfAnswers: { $sum: 1 },
+      },
+    },
+  ]);
+
+  console.log(userIdsAndNumberOfAnswersPosted);
 }
 
 async function query16() {
-  // Write code for Query 16 here
+  const topTwoUsersByAnswerCount = await Answer.aggregate([
+    {
+      $group: {
+        _id: "$author",
+        answerCount: {
+          $sum: 1,
+        },
+      },
+    },
+    {
+      $sort: {
+        answerCount: -1,
+      },
+    },
+    {
+      $limit: 2,
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "_id",
+        foreignField: "_id",
+        as: "user",
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        name: { $arrayElemAt: ["$user.name", 0] },
+        answerCount: 1,
+      },
+    },
+  ]);
+  console.log(topTwoUsersByAnswerCount);
 }
 
 async function query17() {
-  // Write code for Query 17 here
+  const updateQuestionTags = await Question.updateOne(
+    {
+      title:
+        "Why is my async function returning a promise instead of the actual value?",
+    },
+    { $set: { tags: ["javascript", "async"] } },
+  );
+  console.log(updateQuestionTags);
 }
 
 async function query18() {
-  // Write code for Query 18 here
+  const updatedResult = await User.updateOne(
+    { email: "alice@example.com" },
+    { $set: { name: "Alice Smith" } },
+  );
+  console.log(updatedResult);
 }
 
 async function query19() {
-  // Write code for Query 19 here
+  const deleteUserByEmail = await User.deleteOne({
+    email: "jhonny@example.com",
+  });
+  console.log(deleteUserByEmail);
 }
 
 async function query20() {
-  // Write code for Query 20 here
+  const alice = await User.findOne({
+    email: "alice@example.com",
+  }).select("_id");
+
+  if (!alice) return;
+
+  const deleteAnswers = await Answer.deleteMany({
+    author: alice._id,
+  });
+
+  console.log(deleteAnswers);
 }
 
 async function runQueries() {

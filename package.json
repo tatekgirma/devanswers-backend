@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "queries": "node queries.js",
-    "populate": "node scripts/populate_db.js"
+    "populate": "node scripts/populate_db.js",
+    "run1": "npm run populate && npm run queries",
+    "run": "nodemon --exec \"npm run populate && npm run queries\""
   },
   "keywords": [],
   "author": "",
@@ -13,5 +15,8 @@
   "dependencies": {
     "dotenv": "^16.5.0",
     "mongoose": "^8.14.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }
